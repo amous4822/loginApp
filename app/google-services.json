@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "252970583577-0gklp8tdf7fop4qec3fpfhbc0g3ut14t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.project.tabianconsulting",
+            "certificate_hash": "ecebe6beb4cb7b2e6c4207bb23353758d9f7cdd4"
+          }
+        },
+        {
           "client_id": "252970583577-4f6q0n3lr56iip05dvv91nj6q7s0ld00.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "252970583577-4f6q0n3lr56iip05dvv91nj6q7s0ld00.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
