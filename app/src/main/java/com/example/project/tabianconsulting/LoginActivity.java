@@ -1,6 +1,8 @@
 package com.example.project.tabianconsulting;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.content.Loader;
@@ -67,7 +69,11 @@ public class LoginActivity extends AppCompatActivity {
 
                                 //register if everything is OK
                                 registerNewEmail(mEmail.getText().toString(), mConfirmPassword.getText().toString());
-                                Toast.makeText(LoginActivity.this, "success", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Verify you Email ", Toast.LENGTH_LONG).show();
+
+                                startActivity(new Intent(LoginActivity.this,LoginActivity2.class));
+
+
                             } else {
                                 Toast.makeText(LoginActivity.this, "Passwords don't match ", Toast.LENGTH_SHORT).show();
                             }
@@ -80,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "You must fill all the fields properly !", Toast.LENGTH_SHORT).show();
                 }
 
-                dialog.dismiss();
+
                 hideSoftKeyboard();
             }
 
