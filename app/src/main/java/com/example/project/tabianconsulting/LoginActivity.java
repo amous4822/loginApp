@@ -1,5 +1,6 @@
 package com.example.project.tabianconsulting;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -57,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                hideSoftKeyboard();
                 //check username validity
                 if (isValid(mUsername.getText().toString()) && isValid(mPassword.getText().toString())
                         && isValid(mConfirmPassword.getText().toString()) && isValid(mEmail.getText().toString())) {
@@ -73,10 +76,6 @@ public class LoginActivity extends AppCompatActivity {
                                 //register if everything is OK
                                 registerNewEmail(mEmail.getText().toString(), mConfirmPassword.getText().toString());
 
-
-                                Toast.makeText(LoginActivity.this, "Verify you Email ", Toast.LENGTH_LONG).show();
-
-
                             } else {
                                 Toast.makeText(LoginActivity.this, "Passwords don't match ", Toast.LENGTH_SHORT).show();
                             }
@@ -88,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(LoginActivity.this, "You must fill all the fields properly !", Toast.LENGTH_SHORT).show();
                 }
-                hideSoftKeyboard();
+
             }
 
         });
@@ -96,7 +95,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void hideSoftKeyboard() {
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 
     private boolean testEmail(String email) {
