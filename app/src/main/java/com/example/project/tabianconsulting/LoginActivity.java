@@ -21,6 +21,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.security.PrivilegedAction;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -69,9 +72,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                 //register if everything is OK
                                 registerNewEmail(mEmail.getText().toString(), mConfirmPassword.getText().toString());
-                                Toast.makeText(LoginActivity.this, "Verify you Email ", Toast.LENGTH_LONG).show();
 
-                                startActivity(new Intent(LoginActivity.this,LoginActivity2.class));
+
+                                Toast.makeText(LoginActivity.this, "Verify you Email ", Toast.LENGTH_LONG).show();
 
 
                             } else {
@@ -85,8 +88,6 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(LoginActivity.this, "You must fill all the fields properly !", Toast.LENGTH_SHORT).show();
                 }
-
-
                 hideSoftKeyboard();
             }
 
@@ -110,6 +111,11 @@ public class LoginActivity extends AppCompatActivity {
         return pass.length() >= 6;
     }
 
+    /*
+ --------------------------------------------------------------------------FIREBASE SETUP ----------------------------------------------------------------
+ */
+
+
     private void registerNewEmail(String email, String password) {
 
         final ProgressDialog dialog = ProgressDialog.show(this, "Loading", "Please wait...", true);
@@ -119,17 +125,48 @@ public class LoginActivity extends AppCompatActivity {
                                            @Override
                                            public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                               dialog.dismiss();
-
                                                if (task.isSuccessful()) {
+
+
+                                                   sendUserVerification();
                                                    Toast.makeText(LoginActivity.this, "Registration complete: " + FirebaseAuth.getInstance().getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
                                                    FirebaseAuth.getInstance().signOut();
+
+                                                   dialog.dismiss();
+                                                   startActivity(new Intent(LoginActivity.this, LoginActivity2.class));
+
                                                } else {
-                                                   Log.e("Errorz:", task.getException().getMessage());
+
+                                                   dialog.dismiss();
+                                                   Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                                }
                                            }
                                        }
                 );
+    }
+
+    private void sendUserVerification() {
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+
+            user.sendEmailVerification()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if (task.isSuccessful()){
+                                Toast.makeText(LoginActivity.this, "Verification ID sent !!", Toast.LENGTH_SHORT).show();
+                                Log.e("zodea","sent bro !!");
+                            }else {
+                                Toast.makeText(LoginActivity.this, "Error.. please try again ", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        }
+
+
     }
 
     private void showProgress() {

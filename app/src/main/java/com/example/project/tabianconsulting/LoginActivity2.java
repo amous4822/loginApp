@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.dynamic.IFragmentWrapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -51,7 +52,7 @@ public class LoginActivity2 extends Activity {
                         Toast.makeText(LoginActivity2.this, "success", Toast.LENGTH_SHORT).show();
                         final ProgressDialog dialog = ProgressDialog.show(LoginActivity2.this, "Loading", "Please wait...", true);
 
-                        FirebaseAuth.getInstance().signInWithEmailAndPassword(mEmail.getText().toString() , mPassword.getText().toString())
+                        FirebaseAuth.getInstance().signInWithEmailAndPassword(mEmail.getText().toString(), mPassword.getText().toString())
                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -99,7 +100,13 @@ public class LoginActivity2 extends Activity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Toast.makeText(LoginActivity2.this, "User logged in : " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                    if (user.isEmailVerified()){
+                        Toast.makeText(LoginActivity2.this, "User logged in : " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                        FirebaseAuth.getInstance().signOut();
+                    } else{
+                        Toast.makeText(LoginActivity2.this, "Please verify your account: " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                        FirebaseAuth.getInstance().signOut();
+                    }
 
                 } else {
                     Toast.makeText(LoginActivity2.this, "No signed in", Toast.LENGTH_SHORT).show();
@@ -117,7 +124,7 @@ public class LoginActivity2 extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (mAuthListener != null){
+        if (mAuthListener != null) {
             FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
         }
     }
