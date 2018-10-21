@@ -1,13 +1,12 @@
 package com.example.project.tabianconsulting;
 
-
-import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+
+
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,7 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.dynamic.IFragmentWrapper;
+
+import android.support.v7.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -23,13 +23,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LoginActivity2 extends Activity {
+
+public class LoginActivity2 extends AppCompatActivity {
 
 
     private EditText mEmail;
     private EditText mPassword;
     private Button mLogin;
-    private TextView mResendVerification;
+
+
+    Context mContext ;
 
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -41,7 +44,8 @@ public class LoginActivity2 extends Activity {
         mEmail = findViewById(R.id.email_login);
         mPassword = findViewById(R.id.password_login);
         mLogin = findViewById(R.id.login_button);
-        mResendVerification = findViewById(R.id.resend_verify);
+
+
 
         setupFirebaseAuth();
 
@@ -53,6 +57,7 @@ public class LoginActivity2 extends Activity {
                     if (testEmail(mEmail.getText().toString()) && testPassword(mPassword.getText().toString())) {
 
                         Toast.makeText(LoginActivity2.this, "success", Toast.LENGTH_SHORT).show();
+
                         final ProgressDialog dialog = ProgressDialog.show(LoginActivity2.this, "Loading", "Please wait...", true);
 
                         FirebaseAuth.getInstance().signInWithEmailAndPassword(mEmail.getText().toString(), mPassword.getText().toString())
@@ -80,15 +85,19 @@ public class LoginActivity2 extends Activity {
             }
         });
 
+        TextView mResendVerification = (TextView) findViewById(R.id.resend_verify);
         mResendVerification.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                ResendVerificationDialog dialog = new ResendVerificationDialog();
+                dialog.show(getSupportFragmentManager() , "resend_verification_dialog");
             }
         });
 
-
     }
+
+
 
     private boolean isValid(String text) {
         return !TextUtils.isEmpty(text) && !text.contains(" ");
