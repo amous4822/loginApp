@@ -34,12 +34,20 @@
         android:text="@string/login_button" />
 
     <TextView
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/register"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
         android:id="@+id/resend_verify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/resend_verification"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="10dp"/>
 
 
 </LinearLayout>

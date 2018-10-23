@@ -99,11 +99,13 @@ public class ResendVerificationDialog extends DialogFragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
+                            getDialog().dismiss();
+
                             Toast.makeText(mContext, "Email verification Sent !!", Toast.LENGTH_SHORT).show();
                             sendUserVerification();
-
                             FirebaseAuth.getInstance().signOut();
-                            getDialog().dismiss();
+
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -114,10 +116,7 @@ public class ResendVerificationDialog extends DialogFragment {
                 getDialog().dismiss();
             }
         });
-
-
     }
-
 
     private void sendUserVerification() {
 

@@ -29,6 +29,7 @@
         android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:id="@+id/dialog_password"
+        android:inputType="textWebPassword"
         android:hint="@string/password"/>
 
     <RelativeLayout

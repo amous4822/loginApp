@@ -2,6 +2,7 @@ package com.example.project.tabianconsulting;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
@@ -44,8 +45,6 @@ public class LoginActivity2 extends AppCompatActivity {
         mEmail = findViewById(R.id.email_login);
         mPassword = findViewById(R.id.password_login);
         mLogin = findViewById(R.id.login_button);
-
-
 
         setupFirebaseAuth();
 
@@ -92,6 +91,15 @@ public class LoginActivity2 extends AppCompatActivity {
 
                 ResendVerificationDialog dialog = new ResendVerificationDialog();
                 dialog.show(getSupportFragmentManager() , "resend_verification_dialog");
+            }
+        });
+
+        TextView mRegister = findViewById(R.id.register);
+        mRegister.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(LoginActivity2.this , LoginActivity.class));
             }
         });
 
